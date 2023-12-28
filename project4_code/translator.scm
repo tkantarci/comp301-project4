@@ -76,9 +76,12 @@
         ; #####################################################
         (call-exp (rator rand)
           (call-nested-exp
-           (translation-of rator)
-           (translation-of rand)
-           count
+           (translation-of rator env)
+           (translation-of rand env)
+           (cases expression rator
+             (var-exp (var)
+                      (difference-exp (const-exp (expval->num (apply-env env 'count))) (const-exp -1)))
+             (else (const-exp 1)))
            )
         )
         ; #####################################################
@@ -88,7 +91,7 @@
          (letrec-nested-exp
           p-name
           b-var
-          count
+          (apply-env env 'count)
           (translation-of p-body)
           (translation-of letrec-body)
           )
