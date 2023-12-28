@@ -26,9 +26,8 @@
       ; ###### increased later on.
       ; #####################################################    
 
-
-
-    
+      (extend-env
+       'count (num-val 0)
       ; #####################################################
        
        (extend-env
@@ -37,7 +36,7 @@
         'v (num-val 5)
         (extend-env
          'x (num-val 10)
-         (empty-env))))))
+         (empty-env)))))))
 
 ;;;;;;;;;;;;;;;; environment constructors and observers ;;;;;;;;;;;;;;;;
 
@@ -63,7 +62,10 @@
               ; ###### returned. Otherwise, it should behave
               ; ###### as it normally does.
               ; #####################################################
-              val
+              (cases proc val
+                (nested-procedure (bvar count name body env)
+                                  (proc-val (nested-procedure bvar count name body env)))
+                (else val))
 
               ; #####################################################
                         
@@ -81,7 +83,11 @@
         ; ###### for the nested procedures.
         ; #####################################################
 
-
+        (extend-env-rec-nested (id bvar count body saved-env)
+                               (if (eqv? search-sym id)
+                                   (proc-val (nested-procedure bvar count id body env))
+                                   (apply-env saved-env search-sym)))
+                               
         ; #####################################################
       )
     )
