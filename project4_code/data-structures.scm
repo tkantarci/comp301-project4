@@ -65,7 +65,13 @@
     ; ###### the original version of procedure, the count 
     ; ###### variable and the name of the procedure.
     ; #####################################################
-
+    (nested-procedure
+     (bvar symbol?)
+     (count number?)
+     (name symbol?)
+     (body expression?)
+     (env environment?)
+     )
     
 
     ; #####################################################
@@ -92,7 +98,12 @@
     ; ###### extend-env-rec. It takes 1 additional parameter as 
     ; ###### the count variable.
     ; ########################################################s
-
+    (extend-env-rec-nested
+     (id symbol?)
+     (bvar symbol?)
+     (count number?)
+     (body expression?)
+     (saved-env environment?))
     
 
     ; #####################################################
