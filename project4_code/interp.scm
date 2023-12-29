@@ -93,6 +93,13 @@
         ; #####################################################
 
 
+        (letrec-nested-exp (p-name b-var b-count p-body letrec-body)
+           (value-of letrec-body
+                     (extend-env-rec-nested p-name b-var b-count p-body env)))
+
+        (proc-nested-exp (var count name body)
+           (proc-val (nested-procedure var count name body env)))
+        
         ; #####################################################
       
       )))
@@ -122,6 +129,11 @@
         ; #####################################################
 
 
+        (nested-procedure (bvar count name body env)
+              (begin
+                (recursive-displayer name count)
+                (value-of body (extend-env 'count count (extend-env bvar arg saved-env)))))
+              
 
         ; #####################################################
       

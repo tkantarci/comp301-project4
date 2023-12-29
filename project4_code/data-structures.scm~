@@ -1,5 +1,4 @@
 
-
 (module data-structures (lib "eopl.ss" "eopl")
 
   ;; data structures for letrec-lang.
