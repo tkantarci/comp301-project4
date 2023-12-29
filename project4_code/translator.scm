@@ -61,9 +61,9 @@
         ; #####################################################
         (proc-exp (var body)
           (proc-nested-exp
-           var
-           'n
-           'anonym
+           (var-exp var)
+           (var-exp 'n)
+           (var-exp 'anonym)
            (translation-of body env)
            )
         )
@@ -75,21 +75,28 @@
         ; ###### Hint: for incrementing, you can use diff-exp
         ; #####################################################
         (call-exp (rator rand)
-          (if (var-exp? rator)
-              (call-nested-exp rator rand (diff-exp count 1))
-              (call-nested-exp rator rand 1)
-           )
-        )
+          (cases expression rator
+            (var-exp (var)
+              (call-nested-exp
+               (translation-of rator env)
+               (translation-of rand env)
+               (difference-exp (var-exp 'count) (const-exp 1))))
+            (else
+             (call-nested-exp
+               (translation-of rator env)
+               (translation-of rand env)
+               (const-exp 1)))
+        ))
         ; #####################################################
         ; ###### count should be included in the nested version
         ; #####################################################
         (letrec-exp (p-name b-var p-body letrec-body)
          (letrec-nested-exp
-          p-name
-          b-var
-          (difference-exp (const-exp (expval->num (apply-env env 'count))) (const-exp -1))
-          (translation-of p-body)
-          (translation-of letrec-body)
+          (var-exp p-name)
+          (var-exp b-var)
+          (difference-exp (var-exp 'count) (const-exp 1))
+          (translation-of p-body env)
+          (translation-of letrec-body env)
           )
         )
 
