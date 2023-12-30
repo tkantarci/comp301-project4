@@ -60,13 +60,9 @@
         ; ###### proc-nested-exp has variable name, the count, anonym and the body as arguments
         ; #####################################################
         (proc-exp (var body)
-          (proc-nested-exp
-           var
-           'count
-           'anonym
-           (translation-of body env)
-           )
-        )
+          (proc-nested-exp var 'count 'anonym
+                           (translation-of body env)))
+        
         ; #####################################################
         ; ###### call-nested-exp has operator, operand and the count as arguments
         ; ###### if the operator is an var-exp, it means that it is already
@@ -75,31 +71,21 @@
         ; ###### Hint: for incrementing, you can use diff-exp
         ; #####################################################
         (call-exp (rator rand)
-          (cases expression rator
-            (var-exp (var)
-              (call-nested-exp
-               (translation-of rator env)
-               (translation-of rand env)
-               (difference-exp (var-exp 'count) (const-exp -1))))
-            (else
-             (call-nested-exp
-               (translation-of rator env)
-               (translation-of rand env)
-               (const-exp 1)))
-        ))
+          (let ((operator (translation-of rator env))
+                (operand (translation-of rand env)))
+            (let ((count (cases expression operator
+                         (var-exp (var) (difference-exp
+                                         (var-exp 'count)
+                                         (const-exp -1)))
+                         (else (const-exp 1)))))
+          (call-nested-exp operator operand count))))
         ; #####################################################
         ; ###### count should be included in the nested version
         ; #####################################################
         (letrec-exp (p-name b-var p-body letrec-body)
-         (letrec-nested-exp
-          p-name
-          b-var
-          (difference-exp (var-exp 'count) (const-exp -1))
-          (translation-of p-body env)
-          (translation-of letrec-body env)
-          )
-        )
-
+         (letrec-nested-exp p-name b-var 'count
+                            (translation-of p-body env)
+                            (translation-of letrec-body env)))
         ; #####################################################
         
         (else (report-invalid-source-expression exp))
