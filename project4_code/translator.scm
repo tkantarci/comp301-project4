@@ -61,9 +61,9 @@
         ; #####################################################
         (proc-exp (var body)
           (proc-nested-exp
-           (var-exp var)
-           (var-exp 'n)
-           (var-exp 'anonym)
+           var
+           'count
+           'anonym
            (translation-of body env)
            )
         )
@@ -80,7 +80,7 @@
               (call-nested-exp
                (translation-of rator env)
                (translation-of rand env)
-               (difference-exp (var-exp 'count) (const-exp 1))))
+               (difference-exp (var-exp 'count) (const-exp -1))))
             (else
              (call-nested-exp
                (translation-of rator env)
@@ -92,9 +92,9 @@
         ; #####################################################
         (letrec-exp (p-name b-var p-body letrec-body)
          (letrec-nested-exp
-          (var-exp p-name)
-          (var-exp b-var)
-          (difference-exp (var-exp 'count) (const-exp 1))
+          p-name
+          b-var
+          (difference-exp (var-exp 'count) (const-exp -1))
           (translation-of p-body env)
           (translation-of letrec-body env)
           )
