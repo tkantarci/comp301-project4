@@ -99,6 +99,11 @@
 
         (proc-nested-exp (var count name body)
            (proc-val (nested-procedure var count name body env)))
+
+        (call-nested-exp (rator rand count)
+                         (let ((nested-proc (expval->proc (value-of rator env)))
+                               (arg (value-of rand env)))
+                           (apply-procedure nested-proc arg)))
         
         ; #####################################################
       
@@ -132,7 +137,7 @@
         (nested-procedure (bvar count name body env)
               (begin
                 (recursive-displayer name count)
-                (value-of body (extend-env 'count count (extend-env bvar arg saved-env)))))
+                (value-of body (extend-env 'count count (extend-env bvar arg env)))))
               
 
         ; #####################################################
