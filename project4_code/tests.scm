@@ -116,7 +116,17 @@
                                   else if zero?(-(n,1)) then 1
                                                         else -((fib -(n,1)), -(0,(fib -(n,2))))
                                                                     in (fib 8)" 21)
-                 
+
+      ;; Check evenness of a positive number
+      (even-test
+       "let n = 8 in letrec even?(x) = if zero?(x) then 0 else if zero?(-(x, 1)) then -1 else (even? -(x, 2)) in (even? n)" 0)
+
+      ;; Recursive Print:
+      ;; even? --> 1
+      ;; ....even? --> 2
+      ;; ........even? --> 3
+      ;; ............even? --> 4
+      ;; ................even? --> 5
  
       ))
   )
