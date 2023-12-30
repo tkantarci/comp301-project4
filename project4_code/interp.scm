@@ -96,7 +96,7 @@
         (letrec-nested-exp (p-name b-var count-var p-body letrec-body)
            (let ((count (expval->num (value-of (var-exp count-var) env))))
             (value-of letrec-body
-               (extend-env-rec-nested p-name b-var p-body env count))))
+               (extend-env-rec-nested p-name b-var count p-body env))))
 
         (proc-nested-exp (var count-var name body)
           (let ((count (expval->num (value-of (var-exp count-var) env))))
