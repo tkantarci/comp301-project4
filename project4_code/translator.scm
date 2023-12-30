@@ -60,8 +60,7 @@
         ; ###### proc-nested-exp has variable name, the count, anonym and the body as arguments
         ; #####################################################
         (proc-exp (var body)
-          (proc-nested-exp var 'count 'anonym
-                           (translation-of body env)))
+          (proc-nested-exp var 'count 'anonym (translation-of body env)))
         
         ; #####################################################
         ; ###### call-nested-exp has operator, operand and the count as arguments
