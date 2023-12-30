@@ -62,10 +62,14 @@
               ; ###### returned. Otherwise, it should behave
               ; ###### as it normally does.
               ; #####################################################
-              (cases proc val
-                (nested-procedure (bvar count name body env)
-                                  (proc-val (nested-procedure bvar count name body env)))
+              (cases expval val
+                (proc-val (procval)
+                          (cases proc procval
+                            (nested-procedure (bvar count name body env)
+                                              (proc-val (nested-procedure bvar count var body env)))
+                            (else procval)))
                 (else val))
+                                              
 
               ; #####################################################
                         
