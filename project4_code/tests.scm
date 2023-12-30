@@ -96,7 +96,7 @@
 
       (simple-letrec-3
         "let m = -5 
-          in letrec times-m(x) = if zero?(x) 
+             in letrec times-m(x) = if zero?(x) 
           then 0 else -((times-m -(x,1)), m) in (times-m 4)"
         20)
       ;; Recursive Print:
@@ -109,6 +109,14 @@
       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       ;;;;; EXTRA TEST CASES
       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+       (fibonacci "letrec fib(n) =
+                                  if zero?(n) then 0
+                                  else if zero?(-(n,1)) then 1
+                                                        else -((fib -(n,1)), -(0,(fib -(n,2))))
+                                                                    in (fib 8)" 21)
+                 
  
       ))
   )
