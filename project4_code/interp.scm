@@ -103,15 +103,15 @@
            (proc-val (nested-procedure var count name body env))))
 
         (call-nested-exp (rator rand count-exp)
-           (let ((arg (value-of rand env))
-                 (updated-count (expval->num (value-of count-exp env)))
-                 (procedure (expval->proc (value-of rator env))))
-             (apply-procedure
+           (let (
+                 (arg (value-of rand env))
+                 (procedure (expval->proc (value-of rator env)))
+                 (new-count (expval->num (value-of count-exp env)))
+                 )
               (cases proc procedure
                 (nested-procedure (var count name body saved-env)
-                  (nested-procedure var updated-count name body saved-env))
-                (else procedure))
-              arg)))
+                  (apply-procedure (nested-procedure var new-count name body saved-env) arg))
+                (else (apply-procedure procedure arg)))))
         
         ; #####################################################
       
@@ -145,7 +145,7 @@
         (nested-procedure (bvar count name body env)
               (begin
                 (recursive-displayer name count)
-                (value-of body (extend-env 'count (num-val count) (extend-env bvar arg env)))))
+                (value-of body (extend-env bvar arg (extend-env 'count (num-val count) env)))))
               
 
         ; #####################################################

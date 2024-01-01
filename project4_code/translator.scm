@@ -72,10 +72,9 @@
         (call-exp (rator rand)
           (let ((operator (translation-of rator env))
                 (operand (translation-of rand env)))
-            (let ((count (cases expression operator
-                         (var-exp (var) (difference-exp
-                                         (var-exp 'count)
-                                         (const-exp -1)))
+            (let ((count
+                   (cases expression operator
+                         (var-exp (var) (difference-exp (var-exp 'count) (const-exp -1)))
                          (else (const-exp 1)))))
           (call-nested-exp operator operand count))))
         ; #####################################################
